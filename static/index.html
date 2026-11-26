@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cryptographic Systems Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="orb orb-cyan"></div>
+    <div class="orb orb-violet"></div>
+    <div class="orb orb-amber"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <div class="app-shell">
+    <header class="top-bar glass-card" data-tilt>
+      <div class="brand-group">
+        <div class="brand-emblem">
+          <span class="emblem-core"></span>
+        </div>
+        <div>
+          <h1>Cryptographic Systems Simulator</h1>
+          <p class="subtitle">3D Classical Cipher Engine &bull; Step-by-Step Trace &bull; Micro-Benchmark Suite</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <a href="#about-developers" class="nav-pill-btn">About Developers</a>
+        <span class="badge-3d badge-cyan" id="status-badge">Engine Ready</span>
+        <span class="badge-3d badge-violet" id="active-algo-badge">Playfair Cipher</span>
+      </div>
+    </header>
+
+    <main class="workspace-grid">
+      <!-- Left Control Deck -->
+      <section class="control-deck glass-card" data-tilt aria-label="Cipher Controls">
+        <div class="card-header">
+          <h2>Control Deck</h2>
+          <span class="badge-3d badge-amber" id="mode-pill">ENCRYPT</span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Algorithm</label>
+          <div class="algo-selector" id="algo-selector" role="tablist">
+            <button type="button" class="algo-btn" data-algo="caesar">Caesar</button>
+            <button type="button" class="algo-btn active" data-algo="playfair">Playfair</button>
+            <button type="button" class="algo-btn" data-algo="vigenere">Vigenère</button>
+            <button type="button" class="algo-btn" data-algo="rail_fence">Rail Fence</button>
+            <button type="button" class="algo-btn" data-algo="columnar">Columnar</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Operation Mode</label>
+          <div class="mode-toggle" id="mode-toggle">
+            <button type="button" class="mode-btn active" data-mode="encrypt">Encrypt</button>
+            <button type="button" class="mode-btn" data-mode="decrypt">Decrypt</button>
+          </div>
+        </div>
+
+        <div class="field-group" id="key-control-container">
+          <!-- Populated dynamically per algorithm -->
+        </div>
+
+        <div class="field-group">
+          <div class="label-row">
+            <label class="field-label" for="input-text">Input Payload</label>
+            <div class="inline-actions">
+              <button type="button" class="ghost-btn" id="sample-btn">Sample</button>
+              <button type="button" class="ghost-btn" id="swap-btn" title="Move output to input">Swap &uarr;</button>
+            </div>
+          </div>
+          <textarea
+            id="input-text"
+            class="cyber-textarea"
+            rows="4"
+            placeholder="Enter plaintext or ciphertext..."
+          >HIDETHEGOLDINTHETREESTUMP</textarea>
+        </div>
+
+        <div class="error-banner" id="error-banner" role="alert" hidden></div>
+
+        <button type="button" class="primary-btn" id="execute-btn">
+          <span class="btn-glow"></span>
+          <span class="btn-text">Execute Transform</span>
+        </button>
+      </section>
+
+      <!-- Center 3D Visualizer + Output -->
+      <section class="visualizer-column">
+        <div class="visualizer-card glass-card" data-tilt>
+          <div class="card-header">
+            <div>
+              <h2 id="vis-title">3D Algorithm Visualizer</h2>
+              <p class="vis-subtitle" id="vis-subtitle">Interactive state trace and 3D matrix transformations</p>
+            </div>
+            <div class="vis-controls" id="vis-controls">
+              <button type="button" class="ghost-btn" id="replay-btn">Replay 3D Flip</button>
+            </div>
+          </div>
+
+          <div class="visualizer-stage" id="visualizer-stage">
+            <!-- Dynamic 3D trace rendered here -->
+          </div>
+        </div>
+
+        <div class="output-card glass-card" data-tilt>
+          <div class="card-header">
+            <h2>Transformed Output</h2>
+            <div class="output-meta">
+              <span class="badge-3d badge-cyan" id="output-length-badge">0 chars</span>
+              <button type="button" class="ghost-btn" id="copy-btn">Copy</button>
+            </div>
+          </div>
+          <pre class="output-box" id="output-box" aria-live="polite"></pre>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Interactive Chart.js Benchmark Suite -->
+    <section class="benchmark-section glass-card" data-tilt aria-label="Performance Benchmark Suite">
+      <div class="card-header benchmark-header">
+        <div>
+          <h2>Micro-Benchmark &amp; Entropy Suite</h2>
+          <p class="vis-subtitle">
+            Averaged over 20 runs with <code>time.perf_counter_ns()</code> across 100 B, 1 KB, 10 KB, and 50 KB payloads
+          </p>
+        </div>
+        <div class="benchmark-actions">
+          <div class="entropy-pills" id="entropy-pills">
+            <span class="badge-3d badge-cyan">Plain H: <strong id="plain-entropy">--</strong></span>
+            <span class="badge-3d badge-violet">Cipher H: <strong id="cipher-entropy">--</strong></span>
+          </div>
+          <button type="button" class="primary-btn compact-btn" id="benchmark-btn">
+            <span class="btn-text">Run Benchmark</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Execution Latency (ms)</h3>
+          <div class="chart-wrap">
+            <canvas id="latency-chart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h3>Throughput (MB/s &mdash; 50 KB)</h3>
+          <div class="chart-wrap">
+            <canvas id="throughput-chart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h3>A&ndash;Z Frequency Distribution (%)</h3>
+          <div class="chart-wrap">
+            <canvas id="frequency-chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Developers & Academic Attribution -->
+    <section id="about-developers" class="developers-section glass-card" data-tilt aria-label="About Developers">
+      <div class="uni-banner">
+        <div class="uni-logo-wrap">
+          <img src="/static/iu-logo.png" alt="Injibara University Emblem" class="uni-logo" />
+        </div>
+        <div class="uni-meta">
+          <span class="badge-3d badge-amber">Information System Security Project</span>
+          <h2 class="uni-name">INJIBARA UNIVERSITY</h2>
+          <p class="uni-college">COLLEGE OF ENGINEERING AND TECHNOLOGY</p>
+          <p class="uni-dept">DEPARTMENT OF INFORMATION SYSTEMS</p>
+        </div>
+      </div>
+
+      <div class="dev-section-head">
+        <h3>Development Team</h3>
+        <span class="badge-3d badge-cyan">6 Group Members</span>
+      </div>
+
+      <div class="dev-grid">
+        <article class="dev-card" data-tilt>
+          <span class="dev-id">DEV-01</span>
+          <h4 class="dev-name">Temesgen Yechale</h4>
+          <span class="dev-dept-tag">Information Systems</span>
+        </article>
+        <article class="dev-card" data-tilt>
+          <span class="dev-id">DEV-02</span>
+          <h4 class="dev-name">Abebaw Getu</h4>
+          <span class="dev-dept-tag">Information Systems</span>
+        </article>
+        <article class="dev-card" data-tilt>
+          <span class="dev-id">DEV-03</span>
+          <h4 class="dev-name">Yonas Setegn</h4>
+          <span class="dev-dept-tag">Information Systems</span>
+        </article>
+        <article class="dev-card" data-tilt>
+          <span class="dev-id">DEV-04</span>
+          <h4 class="dev-name">Yohanns Tafere</h4>
+          <span class="dev-dept-tag">Information Systems</span>
+        </article>
+        <article class="dev-card" data-tilt>
+          <span class="dev-id">DEV-05</span>
+          <h4 class="dev-name">Hayimanot Gardie</h4>
+          <span class="dev-dept-tag">Information Systems</span>
+        </article>
+        <article class="dev-card" data-tilt>
+          <span class="dev-id">DEV-06</span>
+          <h4 class="dev-name">Tamirat Hayimanot</h4>
+          <span class="dev-dept-tag">Information Systems</span>
+        </article>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
