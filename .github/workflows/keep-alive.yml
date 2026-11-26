@@ -1,14 +1,21 @@
-name: Keep Render Service Active
+name: Keep Render Service Active 24/7
 
 on:
   schedule:
+    # Ping every 10 minutes — Render free tier spins down after 15 min idle
     - cron: "*/10 * * * *"
   workflow_dispatch:
 
 jobs:
   ping-health:
     runs-on: ubuntu-latest
-    if: ${{ vars.RENDER_APP_URL != '' }}
     steps:
       - name: Ping /api/health
-        run: curl -fsS "${{ vars.RENDER_APP_URL }}/api/health"
+        run: |
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" --max-time 20 https://cryptographic-simulator.onrender.com/api/health)
+          echo "HTTP Status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "ERROR: Health check returned $STATUS"
+            exit 1
+          fi
+          echo "Service is alive and healthy."
