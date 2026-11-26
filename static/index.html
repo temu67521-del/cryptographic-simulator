@@ -12,6 +12,8 @@
   <script src="/static/app.js" defer></script>
 </head>
 <body>
+
+  <!-- Ambient 3D Background -->
   <div class="ambient-bg" aria-hidden="true">
     <div class="orb orb-cyan"></div>
     <div class="orb orb-violet"></div>
@@ -20,6 +22,8 @@
   </div>
 
   <div class="app-shell">
+
+    <!-- Top Navigation Header -->
     <header class="top-bar glass-card" data-tilt>
       <div class="brand-group">
         <div class="brand-emblem">
@@ -37,7 +41,9 @@
       </div>
     </header>
 
+    <!-- Main Cipher Workspace -->
     <main class="workspace-grid">
+
       <!-- Left Control Deck -->
       <section class="control-deck glass-card" data-tilt aria-label="Cipher Controls">
         <div class="card-header">
@@ -64,24 +70,18 @@
           </div>
         </div>
 
-        <div class="field-group" id="key-control-container">
-          <!-- Populated dynamically per algorithm -->
-        </div>
+        <div class="field-group" id="key-control-container"></div>
 
         <div class="field-group">
           <div class="label-row">
             <label class="field-label" for="input-text">Input Payload</label>
             <div class="inline-actions">
               <button type="button" class="ghost-btn" id="sample-btn">Sample</button>
-              <button type="button" class="ghost-btn" id="swap-btn" title="Move output to input">Swap &uarr;</button>
+              <button type="button" class="ghost-btn" id="swap-btn" title="Swap output to input">Swap &uarr;</button>
             </div>
           </div>
-          <textarea
-            id="input-text"
-            class="cyber-textarea"
-            rows="4"
-            placeholder="Enter plaintext or ciphertext..."
-          >HIDETHEGOLDINTHETREESTUMP</textarea>
+          <textarea id="input-text" class="cyber-textarea" rows="4"
+            placeholder="Enter plaintext or ciphertext...">HIDETHEGOLDINTHETREESTUMP</textarea>
         </div>
 
         <div class="error-banner" id="error-banner" role="alert" hidden></div>
@@ -92,7 +92,7 @@
         </button>
       </section>
 
-      <!-- Center 3D Visualizer + Output -->
+      <!-- Center Visualizer + Output -->
       <section class="visualizer-column">
         <div class="visualizer-card glass-card" data-tilt>
           <div class="card-header">
@@ -100,14 +100,11 @@
               <h2 id="vis-title">3D Algorithm Visualizer</h2>
               <p class="vis-subtitle" id="vis-subtitle">Interactive state trace and 3D matrix transformations</p>
             </div>
-            <div class="vis-controls" id="vis-controls">
+            <div class="vis-controls">
               <button type="button" class="ghost-btn" id="replay-btn">Replay 3D Flip</button>
             </div>
           </div>
-
-          <div class="visualizer-stage" id="visualizer-stage">
-            <!-- Dynamic 3D trace rendered here -->
-          </div>
+          <div class="visualizer-stage" id="visualizer-stage"></div>
         </div>
 
         <div class="output-card glass-card" data-tilt>
@@ -123,17 +120,17 @@
       </section>
     </main>
 
-    <!-- Bottom Interactive Chart.js Benchmark Suite -->
+    <!-- Benchmark Suite -->
     <section class="benchmark-section glass-card" data-tilt aria-label="Performance Benchmark Suite">
       <div class="card-header benchmark-header">
         <div>
           <h2>Micro-Benchmark &amp; Entropy Suite</h2>
           <p class="vis-subtitle">
-            Averaged over 20 runs with <code>time.perf_counter_ns()</code> across 100 B, 1 KB, 10 KB, and 50 KB payloads
+            Averaged over 20 runs with <code>time.perf_counter_ns()</code> &mdash; 100 B, 1 KB, 10 KB, 50 KB payloads
           </p>
         </div>
         <div class="benchmark-actions">
-          <div class="entropy-pills" id="entropy-pills">
+          <div class="entropy-pills">
             <span class="badge-3d badge-cyan">Plain H: <strong id="plain-entropy">--</strong></span>
             <span class="badge-3d badge-violet">Cipher H: <strong id="cipher-entropy">--</strong></span>
           </div>
@@ -142,31 +139,26 @@
           </button>
         </div>
       </div>
-
       <div class="charts-grid">
         <div class="chart-card">
           <h3>Execution Latency (ms)</h3>
-          <div class="chart-wrap">
-            <canvas id="latency-chart"></canvas>
-          </div>
+          <div class="chart-wrap"><canvas id="latency-chart"></canvas></div>
         </div>
         <div class="chart-card">
           <h3>Throughput (MB/s &mdash; 50 KB)</h3>
-          <div class="chart-wrap">
-            <canvas id="throughput-chart"></canvas>
-          </div>
+          <div class="chart-wrap"><canvas id="throughput-chart"></canvas></div>
         </div>
         <div class="chart-card">
           <h3>A&ndash;Z Frequency Distribution (%)</h3>
-          <div class="chart-wrap">
-            <canvas id="frequency-chart"></canvas>
-          </div>
+          <div class="chart-wrap"><canvas id="frequency-chart"></canvas></div>
         </div>
       </div>
     </section>
 
-    <!-- About Developers & Academic Attribution -->
-    <section id="about-developers" class="developers-section glass-card" data-tilt aria-label="About Developers">
+    <!-- About Developers -->
+    <section id="about-developers" class="developers-section glass-card" aria-label="About Developers">
+
+      <!-- University Banner -->
       <div class="uni-banner">
         <div class="uni-logo-wrap">
           <img src="/static/iu-logo.png" alt="Injibara University Emblem" class="uni-logo" />
@@ -184,63 +176,72 @@
         <span class="badge-3d badge-cyan">6 Group Members</span>
       </div>
 
+      <!-- Developer Cards Grid -->
       <div class="dev-grid">
+
         <article class="dev-card" data-tilt>
           <div class="dev-photo-wrap">
-            <img src="/static/photos/dev01-temesgen.jpg" alt="Temesgen Yechale" class="dev-photo" />
+            <img src="/static/photos/temesgen.jpg" alt="Temesgen Yechale" class="dev-photo" />
             <div class="dev-photo-ring"></div>
           </div>
           <span class="dev-id">DEV-01</span>
           <h4 class="dev-name">Temesgen Yechale</h4>
           <span class="dev-dept-tag">Information Systems</span>
         </article>
+
         <article class="dev-card" data-tilt>
           <div class="dev-photo-wrap">
-            <div class="dev-avatar">AG</div>
+            <img src="/static/photos/abebaw.jpg" alt="Abebaw Getu" class="dev-photo" />
             <div class="dev-photo-ring"></div>
           </div>
           <span class="dev-id">DEV-02</span>
           <h4 class="dev-name">Abebaw Getu</h4>
           <span class="dev-dept-tag">Information Systems</span>
         </article>
+
         <article class="dev-card" data-tilt>
           <div class="dev-photo-wrap">
-            <div class="dev-avatar">YS</div>
+            <img src="/static/photos/yonas.jpg" alt="Yonas Setegn" class="dev-photo" />
             <div class="dev-photo-ring"></div>
           </div>
           <span class="dev-id">DEV-03</span>
           <h4 class="dev-name">Yonas Setegn</h4>
           <span class="dev-dept-tag">Information Systems</span>
         </article>
+
         <article class="dev-card" data-tilt>
           <div class="dev-photo-wrap">
-            <div class="dev-avatar">YT</div>
+            <img src="/static/photos/yohanes.jpg" alt="Yohanns Tafere" class="dev-photo" />
             <div class="dev-photo-ring"></div>
           </div>
           <span class="dev-id">DEV-04</span>
           <h4 class="dev-name">Yohanns Tafere</h4>
           <span class="dev-dept-tag">Information Systems</span>
         </article>
+
         <article class="dev-card" data-tilt>
           <div class="dev-photo-wrap">
-            <div class="dev-avatar">HG</div>
+            <img src="/static/photos/haymanot.jpg" alt="Hayimanot Gardie" class="dev-photo" />
             <div class="dev-photo-ring"></div>
           </div>
           <span class="dev-id">DEV-05</span>
           <h4 class="dev-name">Hayimanot Gardie</h4>
           <span class="dev-dept-tag">Information Systems</span>
         </article>
+
         <article class="dev-card" data-tilt>
           <div class="dev-photo-wrap">
-            <div class="dev-avatar">TH</div>
+            <img src="/static/photos/tameraet.jpg" alt="Tamirat Hayimanot" class="dev-photo" />
             <div class="dev-photo-ring"></div>
           </div>
           <span class="dev-id">DEV-06</span>
           <h4 class="dev-name">Tamirat Hayimanot</h4>
           <span class="dev-dept-tag">Information Systems</span>
         </article>
+
       </div>
     </section>
-  </div>
+
+  </div><!-- /.app-shell -->
 </body>
 </html>
