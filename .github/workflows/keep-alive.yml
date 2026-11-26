@@ -1,0 +1,14 @@
+name: Keep Render Service Active
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping-health:
+    runs-on: ubuntu-latest
+    if: ${{ vars.RENDER_APP_URL != '' }}
+    steps:
+      - name: Ping /api/health
+        run: curl -fsS "${{ vars.RENDER_APP_URL }}/api/health"
