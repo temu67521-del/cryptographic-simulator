@@ -972,9 +972,10 @@ h3 {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 18px 20px;
-  border-radius: 14px;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 20px 18px;
+  border-radius: 18px;
   background: rgba(6, 8, 15, 0.72);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -982,6 +983,7 @@ h3 {
   transform-style: preserve-3d;
   transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
   transition: transform 0.35s var(--spring), border-color 0.35s var(--spring), box-shadow 0.35s var(--spring);
+  text-align: center;
 }
 
 .dev-card:nth-child(even) {
@@ -999,9 +1001,67 @@ h3 {
   box-shadow: 0 18px 34px rgba(0, 0, 0, 0.5), 0 0 22px rgba(131, 56, 236, 0.28);
 }
 
+/* Developer Photo / Avatar */
+.dev-photo-wrap {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 4px;
+  transform: translateZ(22px);
+}
+
+.dev-photo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.dev-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: linear-gradient(135deg, rgba(0, 245, 212, 0.18), rgba(131, 56, 236, 0.28));
+  letter-spacing: 0.04em;
+}
+
+.dev-card:nth-child(even) .dev-avatar {
+  background: linear-gradient(135deg, rgba(131, 56, 236, 0.22), rgba(255, 190, 11, 0.18));
+}
+
+.dev-photo-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    var(--neon-cyan),
+    var(--neon-violet),
+    var(--neon-amber),
+    var(--neon-cyan)
+  ) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: spinBorder 4s linear infinite;
+}
+
+.dev-card:nth-child(even) .dev-photo-ring {
+  animation-direction: reverse;
+}
+
 .dev-id {
   display: inline-block;
-  align-self: flex-start;
+  align-self: center;
   padding: 3px 9px;
   border-radius: 6px;
   font-family: "JetBrains Mono", monospace;
